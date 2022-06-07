@@ -16,4 +16,4 @@ function checkStringLength (string, maxLength) {
 	return string.length <= maxLength;
 }
 
-checkStringLength (Lorem ipsum dolor sit amet, consectetur adipiscing elit., '140');
+checkStringLength ('Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 140);
