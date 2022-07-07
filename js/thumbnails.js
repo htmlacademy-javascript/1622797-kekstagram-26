@@ -1,21 +1,25 @@
-import {getPhotos} from './data.js';
-
-function createThumbnails () {
+// Функция отрисовывает миниатюру изображения и заполняет ее данными
+function createThumbnail ({url, likes, comments}) {
   const photoTemplate = document.querySelector('#picture').content;
-  const photosContainer = document.querySelector('.pictures');
-  const photosData = getPhotos();
+  const photoElement = photoTemplate.cloneNode(true);
+
+  photoElement.querySelector('.picture__img').src = url;
+  photoElement.querySelector('.picture__likes').textContent = likes;
+  photoElement.querySelector('.picture__comments').textContent = comments.length;
+
+  return photoElement;
+};
+
+// Функция создает и отрисовывает миниатюры на странице
+function createThumbnails (photosData) {
   const photoListFragment = document.createDocumentFragment();
 
-  photosData.forEach((photo) => {
-    const photoElement = photoTemplate.cloneNode(true);
-    photoElement.querySelector('.picture__img').src = photo.url;
-    photoElement.querySelector('.picture__likes').textContent = photo.likes;
-    photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
-    photoListFragment.appendChild(photoElement);
+  photosData.forEach(({url, likes, comments}) => {
+  const photo = createThumbnail({url, likes, comments});
+  photoListFragment.appendChild(photo);
   });
 
-  photosContainer.appendChild(photoListFragment);
-}
+  return photoListFragment;
+};
 
 export {createThumbnails};
-
