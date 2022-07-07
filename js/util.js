@@ -20,7 +20,7 @@ checkStringLength ('Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 1
 
 // Функция для получения случайного элемента из массива
 function getRandomArrayElement (elements) {
-  getRandomPositiveInteger(0, elements.length - 1);
+  return elements[getRandomPositiveInteger(0, elements.length - 1)];
 }
 
 export {getRandomPositiveInteger, checkStringLength, getRandomArrayElement};
