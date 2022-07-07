@@ -8,18 +8,18 @@ function createThumbnail ({url, likes, comments}) {
   photoElement.querySelector('.picture__comments').textContent = comments.length;
 
   return photoElement;
-};
+}
 
 // Функция создает и отрисовывает миниатюры на странице
 function createThumbnails (photosData) {
   const photoListFragment = document.createDocumentFragment();
 
   photosData.forEach(({url, likes, comments}) => {
-  const photo = createThumbnail({url, likes, comments});
-  photoListFragment.appendChild(photo);
+    const photo = createThumbnail({url, likes, comments});
+    photoListFragment.appendChild(photo);
   });
 
   return photoListFragment;
-};
+}
 
 export {createThumbnails};
