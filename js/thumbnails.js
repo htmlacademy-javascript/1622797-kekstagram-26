@@ -1,5 +1,5 @@
 // Функция отрисовывает миниатюру изображения и заполняет ее данными
-function createThumbnail ({url, likes, comments}) {
+function createThumbnail (url, likes, comments) {
   const photoTemplate = document.querySelector('#picture').content;
   const photoElement = photoTemplate.cloneNode(true);
 
@@ -15,7 +15,7 @@ function createThumbnails (photosData) {
   const photoListFragment = document.createDocumentFragment();
 
   photosData.forEach(({url, likes, comments}) => {
-    const photo = createThumbnail({url, likes, comments});
+    const photo = createThumbnail(url, likes, comments);
     photoListFragment.appendChild(photo);
   });
 

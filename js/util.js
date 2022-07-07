@@ -23,4 +23,9 @@ function getRandomArrayElement (elements) {
   return elements[getRandomPositiveInteger(0, elements.length - 1)];
 }
 
-export {getRandomPositiveInteger, checkStringLength, getRandomArrayElement};
+// Функция проверяет нажатие клавиши Escape
+function isEscapeKey (evt) {
+  return evt.key === 'Escape';
+}
+
+export {getRandomPositiveInteger, checkStringLength, getRandomArrayElement, isEscapeKey};
