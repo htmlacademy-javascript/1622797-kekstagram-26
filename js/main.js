@@ -1,5 +1,6 @@
 import {createThumbnails} from './thumbnails.js';
 import {getPhotos} from './data.js';
+import {openBigPictures} from './big-pictures.js';
 import './util.js';
 
 const photosData = getPhotos();
