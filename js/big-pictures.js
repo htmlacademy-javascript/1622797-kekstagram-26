@@ -1,11 +1,11 @@
 import {isEscapeKey} from './util.js';
-import {getPhotos} from './data.js';
 
-const photosData = getPhotos();
 const body = document.querySelector('body');
 const bigPicturesContainer = document.querySelector('.big-picture');
 const bigPicturesCloseButton = document.querySelector('#picture-cancel');
-const previews = photosContainer.querySelectorAll('.picture');
+const commentCount = document.querySelector('.social__comment-count');
+const commentsLoader = document.querySelector('.comments-loader');
+const commentsBlock = document.querySelector('.social__comments');
 
 
 // Функция закрытия полноэкранного изображения по нажатия на клавишу Escape
@@ -19,45 +19,61 @@ function onBigPicturesEscKeydown (evt) {
 
 // Функция закрывает полноэкранное изображение
 function closeBigPictures () {
-  bigPictures.classList.add('hidden');
+  bigPicturesContainer.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onBigPicturesEscKeydown);
 }
 
 
-// Функция создает полноэкранное изображение
-function createBigPictures (dataPicture) {
-  const bigPictureImg = bigPicturesContainer.querySelector('.big-picture__img img');
-  const bigPictureLikes = bigPictureContainer.querySelector('.likes-count');
-  const bigPicttureDescription = bigPictureContainer.querySelector('.social__caption');
+// Обработчик события на кнопку закрытия изображения
+bigPicturesCloseButton.addEventListener('click', () => {
+  closeBigPictures();
+});
 
-  bigPictureImg.src = dataPicture.url;
-  bigPictureLikes.textContent = dataPicture.likes;
-  bigPicttureDescription.textContent = dataPicture.description;
+
+// Функция создает полноэкранное изображение и заполняет его
+function createBigPictures(thumbnails, photosData) {
+  for (let i = 0; i < thumbnails.length; i++) {
+    thumbnails[i].addEventListener('click', (evt) => {
+      evt.preventDefault();
+
+      body.classList.add('modal-open');
+      bigPicturesContainer.classList.remove('hidden');
+
+      bigPicturesContainer.querySelector('.big-picture__img img').src = photosData[i].url;
+      bigPicturesContainer.querySelector('.likes-count').textContent = photosData[i].likes;
+      bigPicturesContainer.querySelector('.social__caption').textContent = photosData[i].description;
+      bigPicturesContainer.querySelector('.comments-count').textContent = String(photosData[i].comments.length);
+
+      document.addEventListener('keydown', onBigPicturesEscKeydown);
+      commentsBlock.innerHTML = '';
+      commentsLoader.classList.add('hidden');
+      commentCount.classList.add('hidden');
+      createComments(photosData, i);
+    });
+  }
 }
 
 
-// Функция открывает полноэкранное изображение
-function openBigPictures (dataPicture) {
-  bigPictureContainer.classList.remove('hidden');
-  body.classList.add('modal-open');
-  document.addEventListener('keydown', onBigPicturesEscKeydown);
-  bigPicturesCloseButton.addEventListener('click', () => {
-    closeBigPictures();
+// Функция создает блок с комментарием
+function createComments(photosData, i) {
+  const commentList = document.createDocumentFragment();
+  const li = document.createElement('li');
+  const img = document.createElement('img');
+  const p = document.createElement('p');
+  photosData[i].comments.forEach((comment) => {
+    li.classList.add('social__comment');
+    img.classList.add('social__picture');
+    img.src = comment.avatar;
+    img.alt = comment.name;
+    li.appendChild(img);
+    p.classList.add('social__text');
+    p.innerText = comment.messages;
+    li.appendChild(p);
+    commentList.appendChild(li);
+    commentsBlock.appendChild(commentList);
   });
-
-  createBigPictures(dataPicture);
+  return commentList;
 }
 
-
-function initBigPicture(item, dataPicture) {
-  item.addEventListener('click', () => {
-    openBigPicture(dataPicture);
-  });
-}
-
-for (let i = 0; i < photosData.length; i++) {
-  initBigPicture(previews[i], photosData[i]);
-}
-
-export {openBigPictures};
+export {createBigPictures};
