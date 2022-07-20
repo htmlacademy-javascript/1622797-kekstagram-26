@@ -16,8 +16,6 @@ function checkStringLength (string, maxLength) {
   return string.length <= maxLength;
 }
 
-checkStringLength ('Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 140);
-
 // Функция для получения случайного элемента из массива
 function getRandomArrayElement (elements) {
   return elements[getRandomPositiveInteger(0, elements.length - 1)];
@@ -28,4 +26,9 @@ function isEscapeKey (evt) {
   return evt.key === 'Escape';
 }
 
-export {getRandomPositiveInteger, checkStringLength, getRandomArrayElement, isEscapeKey};
+// Функция проверяет на повторение элементов
+function isNotDuplicates(items) {
+  return !(items.some((item) => items.indexOf(item) !== items.lastIndexOf(item)));
+}
+
+export {getRandomPositiveInteger, checkStringLength, getRandomArrayElement, isEscapeKey, isNotDuplicates};

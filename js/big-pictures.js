@@ -76,4 +76,4 @@ function createComments(photosData, i) {
   return commentList;
 }
 
-export {createBigPictures};
+export {createBigPictures, body};
