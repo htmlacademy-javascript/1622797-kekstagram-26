@@ -1,7 +1,6 @@
 import {checkStringLength, haveSameElements} from './util.js';
 import {textHashtags, textDescription} from './upload-form.js';
 
-const MIN_HASHTAG_LENGTH = 2;
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_COUNT_HASHTAG = 5;
 const MAX_DESCRIPTION_LENGTH = 140;
