@@ -26,9 +26,9 @@ function isEscapeKey (evt) {
   return evt.key === 'Escape';
 }
 
-// Функция проверяет на повторение элементов
-function isNotDuplicates(items) {
-  return !(items.some((item) => items.indexOf(item) !== items.lastIndexOf(item)));
+// Функция выбирает случайный элемент из массива
+function haveSameElements(arrayOfElements) {
+  return [...new Set(arrayOfElements)].length !== arrayOfElements.length;
 }
 
-export {getRandomPositiveInteger, checkStringLength, getRandomArrayElement, isEscapeKey, isNotDuplicates};
+export {getRandomPositiveInteger, checkStringLength, getRandomArrayElement, isEscapeKey, haveSameElements};
