@@ -6,6 +6,8 @@ const bigPicturesCloseButton = document.querySelector('#picture-cancel');
 const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 const commentsBlock = document.querySelector('.social__comments');
+const COMMENT_COUNT_SHOW = 5;
+const FIRST_INDEX_COUNT = 0;
 
 
 // Функция закрытия полноэкранного изображения по нажатия на клавишу Escape
@@ -47,8 +49,6 @@ function createBigPictures(thumbnails, photosData) {
 
       document.addEventListener('keydown', onBigPicturesEscKeydown);
       commentsBlock.innerHTML = '';
-      commentsLoader.classList.add('hidden');
-      commentCount.classList.add('hidden');
       createComments(photosData, i);
     });
   }
@@ -74,6 +74,21 @@ function createComments(photosData, i) {
     commentsBlock.appendChild(commentList);
   });
   return commentList;
+}
+
+
+// Функция показывает комментарии под изображением
+function showComments (commentsList) {
+  const curComments = commentsList.slice(FIRST_INDEX_COUNT, COMMENT_COUNT_SHOW);
+  const createCommentsList = createComments(curComments);
+  commentsLoader.classList.remove('hidden');
+
+  commentCount.textContent = `${curComments.length  } из ${commentsList.length} комментариев`;
+
+  if (COMMENT_COUNT_SHOW >= commentsList.length) {
+    commentsLoader.classList.add('hidden');
+  }
+  return createCommentsList;
 }
 
 export {createBigPictures, body};
