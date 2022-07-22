@@ -6,8 +6,9 @@ const bigPicturesCloseButton = document.querySelector('#picture-cancel');
 const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 const commentsBlock = document.querySelector('.social__comments');
-const COMMENT_COUNT_SHOW = 5;
-const FIRST_INDEX_COUNT = 0;
+const commentElement = document.querySelector('.social_comment');
+const maxCommentValue = 5;
+const commentsFragment = document.createDocumentFragment();
 
 
 // Функция закрытия полноэкранного изображения по нажатия на клавишу Escape
@@ -27,68 +28,54 @@ function closeBigPictures () {
 }
 
 
-// Обработчик события на кнопку закрытия изображения
-bigPicturesCloseButton.addEventListener('click', () => {
-  closeBigPictures();
-});
+// Функция открывает полноэкранное изображение
+function openBigPictures () {
+  body.classList.add('modal-open');
+  bigPicturesContainer.classList.remove('hidden');
+  document.addEventListener('keydown', onBigPicturesEscKeydown);
+}
+
 
 
 // Функция создает полноэкранное изображение и заполняет его
-function createBigPictures(thumbnails, photosData) {
-  for (let i = 0; i < thumbnails.length; i++) {
-    thumbnails[i].addEventListener('click', (evt) => {
-      evt.preventDefault();
+function createBigPictures(url, likes, comments, description) {
+  openBigPictures();
 
-      body.classList.add('modal-open');
-      bigPicturesContainer.classList.remove('hidden');
+  bigPicturesContainer.querySelector('.big-picture__img img').src = url;
+  bigPicturesContainer.querySelector('.likes-count').textContent = likes;
+  bigPicturesContainer.querySelector('.social__caption').textContent = description;
 
-      bigPicturesContainer.querySelector('.big-picture__img img').src = photosData[i].url;
-      bigPicturesContainer.querySelector('.likes-count').textContent = photosData[i].likes;
-      bigPicturesContainer.querySelector('.social__caption').textContent = photosData[i].description;
-      bigPicturesContainer.querySelector('.comments-count').textContent = String(photosData[i].comments.length);
+  let commentsValue = 0;
 
-      document.addEventListener('keydown', onBigPicturesEscKeydown);
-      commentsBlock.innerHTML = '';
-      createComments(photosData, i);
+  function showComments (comments) {
+    comments.slice(0, commentsValue += maxCommentsValue).forEach({avatar, name, message} => {
+      const socialCommentTemplate = commentElement.cloneNode(true);
+      const socialCommentImage = socialCommentTemplate.querySelector('.social__picture');
+      const socialCommentText = socialCommentTemplate.querySelector('.social__text');
+
+      socialCommentImage.src = avatar;
+      socialCommentImage.alt = name;
+      socialCommentText.textContent = message;
+
+      commentsFragment.append(socialCommentTemplate);
     });
-  }
-}
 
+    commentsBlock.innerHTML = '';
+    commentsBlock.append(commentsFragment);
 
-// Функция создает блок с комментарием
-function createComments(photosData, i) {
-  const commentList = document.createDocumentFragment();
-  const li = document.createElement('li');
-  const img = document.createElement('img');
-  const p = document.createElement('p');
-  photosData[i].comments.forEach((comment) => {
-    li.classList.add('social__comment');
-    img.classList.add('social__picture');
-    img.src = comment.avatar;
-    img.alt = comment.name;
-    li.appendChild(img);
-    p.classList.add('social__text');
-    p.innerText = comment.messages;
-    li.appendChild(p);
-    commentList.appendChild(li);
-    commentsBlock.appendChild(commentList);
-  });
-  return commentList;
-}
+    if (comment.length <= commentsValue) {
+      commentCount.textContent = `${comments.length} из ${comments.length} комментариев`;
+      commentsLoader.classList.add('hidden');
+    } else {
+      commentCount.textContent = `${comments.length} из ${comments.length} комментариев`;
+      commentsLoader.classList.remove('hidden');
+    }
+  };
 
+  showComments();
 
-// Функция показывает комментарии под изображением
-function showComments (commentsList) {
-  const curComments = commentsList.slice(FIRST_INDEX_COUNT, COMMENT_COUNT_SHOW);
-  const createCommentsList = createComments(curComments);
-  commentsLoader.classList.remove('hidden');
-
-  commentCount.textContent = `${curComments.length  } из ${commentsList.length} комментариев`;
-
-  if (COMMENT_COUNT_SHOW >= commentsList.length) {
-    commentsLoader.classList.add('hidden');
-  }
-  return createCommentsList;
+  bigPicturesCloseButton.addEventListener('click', closeBigPictures);
+  commentsLoader.addEventListener('click', () => showComments());
 }
 
 export {createBigPictures, body};
