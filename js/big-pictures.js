@@ -37,7 +37,7 @@ function openBigPictures () {
 
 
 // Функция создает полноэкранное изображение и заполняет его
-function createBigPictures({url, likes, comments, description}) {
+function createBigPictures(url, likes, comments, description) {
   openBigPictures();
 
   bigPicturesContainer.querySelector('.big-picture__img img').src = url;
@@ -46,8 +46,8 @@ function createBigPictures({url, likes, comments, description}) {
 
   let commentsValue = 0;
 
-  function showComments (comments) {
-    comments.slice(0, commentsValue += maxCommentsValue).forEach({avatar, name, message} => {
+  function showComments () {
+    comments.slice(0, commentsValue += maxCommentsValue).forEach(({avatar, name, message}) => {
       const socialCommentTemplate = commentElement.cloneNode(true);
       const socialCommentImage = socialCommentTemplate.querySelector('.social__picture');
       const socialCommentText = socialCommentTemplate.querySelector('.social__text');
