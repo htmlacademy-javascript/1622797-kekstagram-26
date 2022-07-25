@@ -4,6 +4,7 @@ import {createBigPictures} from './big-pictures.js';
 import './util.js';
 import './upload-form.js';
 import './validate-form.js';
+import {createSlider} from './filters.js';
 
 const photosData = getPhotos();
 const photosContainer = document.querySelector('.pictures');
@@ -12,3 +13,5 @@ photosContainer.appendChild(photoFragment);
 
 const thumbnails = photosContainer.querySelectorAll('.picture');
 createBigPictures(thumbnails, photosData);
+
+createSlider();
