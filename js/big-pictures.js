@@ -7,7 +7,7 @@ const commentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 const commentsBlock = document.querySelector('.social__comments');
 const commentElement = document.querySelector('.social_comment');
-const maxCommentValue = 5;
+const maxCommentsValue = 5;
 const commentsFragment = document.createDocumentFragment();
 
 
@@ -37,7 +37,7 @@ function openBigPictures () {
 
 
 // Функция создает полноэкранное изображение и заполняет его
-function createBigPictures(url, likes, comments, description) {
+function createBigPictures({url, likes, comments, description}) {
   openBigPictures();
 
   bigPicturesContainer.querySelector('.big-picture__img img').src = url;
@@ -47,7 +47,7 @@ function createBigPictures(url, likes, comments, description) {
   let commentsValue = 0;
 
   function showComments (comments) {
-    comments.slice(0, commentsValue += maxCommentsValue).forEach(avatar, name, message => {
+    comments.slice(0, commentsValue += maxCommentsValue).forEach({avatar, name, message} => {
       const socialCommentTemplate = commentElement.cloneNode(true);
       const socialCommentImage = socialCommentTemplate.querySelector('.social__picture');
       const socialCommentText = socialCommentTemplate.querySelector('.social__text');
@@ -69,7 +69,7 @@ function createBigPictures(url, likes, comments, description) {
       commentCount.textContent = `${comments.length} из ${comments.length} комментариев`;
       commentsLoader.classList.remove('hidden');
     }
-  };
+  }
 
   showComments();
 
