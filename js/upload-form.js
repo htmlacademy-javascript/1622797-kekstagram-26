@@ -26,7 +26,7 @@ function getPreviewPhoto() {
   if (matches) {
     preview.src = URL.createObjectURL(file);
   }
-};
+}
 
 
 // Функция отменяет нажатие клавиши Escape при фокусе на полях с хэштегом и комментарием
