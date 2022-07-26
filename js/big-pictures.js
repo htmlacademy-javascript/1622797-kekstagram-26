@@ -2,13 +2,19 @@ import {isEscapeKey} from './util.js';
 
 const body = document.querySelector('body');
 const bigPicturesContainer = document.querySelector('.big-picture');
-const bigPicturesCloseButton = bigPicturesContainer.querySelector('big-picture__cancel');
+const bigPicturesCloseButton = bigPicturesContainer.querySelector('.big-picture__cancel');
 const commentCount = bigPicturesContainer.querySelector('.social__comment-count');
 const commentsLoader = bigPicturesContainer.querySelector('.comments-loader');
 const commentsBlock = bigPicturesContainer.querySelector('.social__comments');
 const MAX_COMMENTS_SHOW = 5;
 let count = 0;
 let comments = [];
+
+
+// Обработчик события по нажатию на крестик
+bigPicturesCloseButton.addEventListener('click', () => {
+  closeBigPictures();
+});
 
 
 // Функция закрытия полноэкранного изображения по нажатия на клавишу Escape
@@ -20,18 +26,12 @@ function onBigPicturesEscKeydown (evt) {
 }
 
 
-// Функция закрытия полноэкранного изображения по нажатию на крестик
-function closeBigPicturesClick () {
-  closeBigPictures();
-}
-
-
 // Функция закрывает полноэкранное изображение
 function closeBigPictures () {
   bigPicturesContainer.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onBigPicturesEscKeydown);
-  document.removeEventListener('click', closeBigPicturesClick);
+  bigPicturesCloseButton.removeEventListener('click', closeBigPictures);
   commentsLoader.removeEventListener('click', commentsLoaderOnClick);
   count = 0;
   comments = [];
@@ -45,7 +45,7 @@ function createBigPictures(photos) {
   bigPicturesContainer.querySelector('.big-picture__img img').src = photos.url;
   bigPicturesContainer.querySelector('.likes-count').textContent = photos.likes;
   bigPicturesContainer.querySelector('.social__caption').textContent = photos.description;
-  bigPicturesContainer.querySelector('.comments-count').textContent = String(photos.comments.length);
+  bigPicturesContainer.querySelector('.comments-count').textContent = photos.comments.length;
   comments = photos.comments;
   renderCommentsCounter();
   commentsLoader.addEventListener('click', commentsLoaderOnClick);
