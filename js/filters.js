@@ -1,4 +1,4 @@
-import {getRandomArrayElement, debounce} from './util.js';
+import {debounce, shuffle} from './util.js';
 import {createThumbnails} from './thumbnails.js';
 
 const RANDOM_PHOTOS_COUNT = 10;
@@ -9,23 +9,21 @@ const discussedButton = document.querySelector('#filter-discussed');
 
 
 // Функция высчитывает разницу между количеством комменатриев изображений
-function compareComments (photoA, photoB) {
-  const rankA = photoA.comments.length;
-  const rankB = photoB.comments.length;
-  return rankB - rankA;
+function compareComments (a, b) {
+  return b.comments.length - a.comments.length;
 }
 
 
 // Функция показывает все фотографии с сервера
 function createDefaultFilters (photos) {
-  photos.slice();
+  return photos.slice().sort((photoA, photoB) => photoA.id - photoB.id);
 }
 
 
 // Функция показывает рандомные 10 фотографий
 function createRandomFilters (photos) {
   const photosArray = photos.slice();
-  return getRandomArrayElement(photosArray).slice(0, RANDOM_PHOTOS_COUNT);
+  return shuffle(photosArray.slice()).slice(0, RANDOM_PHOTOS_COUNT);
 }
 
 
@@ -43,8 +41,45 @@ function removeActiveClass () {
 }
 
 
+// Функция очищает главную страницу
 function clearPhotosContainer () {
-
+  const allPhotos = document.querySelectorAll('.picture');
+  allPhotos.forEach((photos) => {
+    photos.remove();
+  });
 }
 
 
+function renderPhotosFilter (photos) {
+  clearPhotosContainer();
+  createThumbnails(photos);
+}
+
+
+// Функция переключает фильтры с изображениями
+function showPhotosFilter (photos) {
+  filters.classList.remove('img-filters--inactive');
+  defaultButton.addEventListener('click', debounce((evt) => {
+    removeActiveClass();
+    if (evt.target === defaultButton) {
+      defaultButton.classList.add('img-filters__button--active');
+    }
+    renderPhotosFilter(createDefaultFilters(photos));
+  }));
+  randomButton.addEventListener('click', debounce((evt) => {
+    removeActiveClass();
+    if (evt.target === randomButton) {
+      randomButton.classList.add('img-filters__button--active');
+    }
+    renderPhotosFilter(createRandomFilters(photos));
+  }));
+  discussedButton.addEventListener('click', debounce((evt) => {
+    removeActiveClass();
+    if (evt.target === discussedButton) {
+      discussedButton.classList.add('img-filters__button--active');
+    }
+    renderPhotosFilter(createDiscussedFilters(photos));
+  }));
+}
+
+export {showPhotosFilter};

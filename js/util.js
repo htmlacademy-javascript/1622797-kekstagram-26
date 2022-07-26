@@ -60,6 +60,7 @@ function showAlert (message) {
 }
 
 
+// Функция устраняет "дребезг" при переключении фильтров
 const debounce = (callback, timeoutDelay = TIME_OUT_DELAY) => {
   let timeoutId;
   return (...rest) => {
@@ -68,4 +69,14 @@ const debounce = (callback, timeoutDelay = TIME_OUT_DELAY) => {
   };
 };
 
-export {getRandomPositiveInteger, checkStringLength, getRandomArrayElement, isEscapeKey, haveSameElements, showAlert, debounce};
+
+function shuffle(array) {
+  const copyArray = array.slice();
+  for (let i = copyArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copyArray[i], copyArray[j]] = [copyArray[j], copyArray[i]];
+  }
+  return copyArray;
+}
+
+export {getRandomPositiveInteger, checkStringLength, getRandomArrayElement, isEscapeKey, haveSameElements, showAlert, debounce, shuffle};

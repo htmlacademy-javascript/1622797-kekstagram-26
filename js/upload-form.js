@@ -16,6 +16,17 @@ const preview = document.querySelector('.img-upload__preview').querySelector('im
 const effectList = document.querySelector('.effects__list');
 const buttonCancel = uploadOverlay.querySelector('.img-upload__cancel');
 const buttonSubmit = uploadOverlay.querySelector('.img-upload__submit');
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+
+function getPreviewPhoto() {
+  const file = uploadFile.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    preview.src = URL.createObjectURL(file);
+  }
+};
 
 
 // Функция отменяет нажатие клавиши Escape при фокусе на полях с хэштегом и комментарием
@@ -41,6 +52,7 @@ function openUploadOverlay () {
   buttonCancel.addEventListener('click', closeUploadOverlay);
   onControlScale();
   effectList.addEventListener('change', onFilterButtonChange);
+  getPreviewPhoto();
 }
 
 
