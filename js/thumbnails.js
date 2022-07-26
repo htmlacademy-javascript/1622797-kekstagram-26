@@ -1,25 +1,34 @@
+import {createBigPictures} from './big-pictures.js';
+
+
+const photoTemplate = document.querySelector('#picture').content;
+const photoListFragment = document.createDocumentFragment();
+const photoContainer = document.querySelector('.pictures');
+const template = photoTemplate.querySelector('a');
+
+
 // Функция отрисовывает миниатюру изображения и заполняет ее данными
-function createThumbnail (url, likes, comments) {
-  const photoTemplate = document.querySelector('#picture').content;
-  const photoElement = photoTemplate.cloneNode(true);
+function createThumbnail (photos) {
+  const photoElement = template.cloneNode(true);
 
-  photoElement.querySelector('.picture__img').src = url;
-  photoElement.querySelector('.picture__likes').textContent = likes;
-  photoElement.querySelector('.picture__comments').textContent = comments.length;
+  photoElement.querySelector('.picture__img').src = photos.url;
+  photoElement.querySelector('.picture__likes').textContent = photos.likes;
+  photoElement.querySelector('.picture__comments').textContent = photos.comments.length;
 
-  return photoElement;
+  photoElement.addEventListener('click', () => {
+    createBigPictures(photos);
+  });
+  photoListFragment.appendChild(photoElement);
 }
 
-// Функция создает и отрисовывает миниатюры на странице
-function createThumbnails (photosData) {
-  const photoListFragment = document.createDocumentFragment();
 
-  photosData.forEach(({url, likes, comments}) => {
-    const photo = createThumbnail(url, likes, comments);
-    photoListFragment.appendChild(photo);
+// Функция создает и отрисовывает миниатюры на странице
+function createThumbnails (photos) {
+  photos.forEach((photo) => {
+    createThumbnail(photo);
   });
 
-  return photoListFragment;
+  photoContainer.appendChild(photoListFragment);
 }
 
 export {createThumbnails};
