@@ -1,109 +1,50 @@
-import {imgPreview} from './scale-control.js';
+import {getRandomArrayElement, debounce} from './util.js';
+import {createThumbnails} from './thumbnails.js';
 
-const sliderWrapper = document.querySelector('.effect-level');
-const slider = sliderWrapper.querySelector('.effect-level__slider');
-const effectValue = document.querySelector('.effect-level__value');
-
-const sliderEffects = {
-  chrome: {
-    filter: 'grayscale',
-    units: '',
-    options: {
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-    }
-  },
-  sepia: {
-    filter: 'sepia',
-    units: '',
-    options: {
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-    }
-  },
-  marvin: {
-    filter: 'invert',
-    units: '%',
-    options: {
-      range: {
-        min: 0,
-        max: 100,
-      },
-      start: 100,
-      step: 1,
-    }
-  },
-  phobos: {
-    filter: 'blur',
-    units: 'px',
-    options: {
-      range: {
-        min: 0,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1,
-    }
-  },
-  heat: {
-    filter: 'brightness',
-    units: '',
-    options: {
-      range: {
-        min: 1,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1,
-    }
-  },
-};
+const RANDOM_PHOTOS_COUNT = 10;
+const filters = document.querySelector('.img-filters');
+const defaultButton = document.querySelector('#filter-default');
+const randomButton = document.querySelector('#filter-random');
+const discussedButton = document.querySelector('#filter-discussed');
 
 
-function createSlider () {
-  noUiSlider.create(slider, {
-    range: {
-      min: 0,
-      max: 100,
-    },
-    start: 100,
-    step: 0.1,
-    connect: 'lower',
-    format: {
-      to: (value) => {
-        if (Number.isInteger(value)) {
-          return value.toFixed(0);
-        }
-        return value.toFixed(1);
-      },
-      from: (value) => parseFloat(value),
-    },
-  });
+// Функция высчитывает разницу между количеством комменатриев изображений
+function compareComments (photoA, photoB) {
+  const rankA = photoA.comments.length;
+  const rankB = photoB.comments.length;
+  return rankB - rankA;
 }
 
-function onFilterButtonChange (evt) {
-  const currentEffect = evt.target.value;
-  if (currentEffect === 'none') {
-    sliderWrapper.classList.add('hidden');
-    imgPreview.style.filter = 'none';
-  } else {
-    sliderWrapper.classList.remove('hidden');
-    imgPreview.removeAttribute('class');
-    imgPreview.classList.add(`effects__preview--${currentEffect}`);
-    slider.noUiSlider.updateOptions(sliderEffects[currentEffect].options);
-    slider.noUiSlider.on('update', () => {
-      effectValue.value = slider.noUiSlider.get();
-      imgPreview.style.filter = `${sliderEffects[currentEffect].filter}(${effectValue.value}${sliderEffects[currentEffect].units})`;
-    });
-  }
+
+// Функция показывает все фотографии с сервера
+function createDefaultFilters (photos) {
+  photos.slice();
 }
 
-export {createSlider, onFilterButtonChange, sliderWrapper};
+
+// Функция показывает рандомные 10 фотографий
+function createRandomFilters (photos) {
+  const photosArray = photos.slice();
+  return getRandomArrayElement(photosArray).slice(0, RANDOM_PHOTOS_COUNT);
+}
+
+
+// Фукнция показывает самые обсуждаемые фотографии
+function createDiscussedFilters (photos) {
+  const photosArray = photos.slice();
+  return photosArray.sort(compareComments);
+}
+
+
+// Функция удаляет класс у кнопок фильтров
+function removeActiveClass () {
+  const activeButton = document.querySelector('.img-filters__button--active');
+  activeButton.classList.remove('img-filters__button--active');
+}
+
+
+function clearPhotosContainer () {
+
+}
+
+

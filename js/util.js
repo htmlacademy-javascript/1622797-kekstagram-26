@@ -1,4 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
+const TIME_OUT_DELAY = 500;
 
 
 // Функция, возвращающая случайное целое число из переданного диапазона
@@ -58,4 +59,13 @@ function showAlert (message) {
   }, ALERT_SHOW_TIME);
 }
 
-export {getRandomPositiveInteger, checkStringLength, getRandomArrayElement, isEscapeKey, haveSameElements, showAlert};
+
+const debounce = (callback, timeoutDelay = TIME_OUT_DELAY) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {getRandomPositiveInteger, checkStringLength, getRandomArrayElement, isEscapeKey, haveSameElements, showAlert, debounce};

@@ -1,7 +1,7 @@
 import {isEscapeKey} from './util.js';
 import {body} from './big-pictures.js';
 import {onControlScale, removeControlScale, imgPreview} from './scale-control.js';
-import {onFilterButtonChange, sliderWrapper} from './filters.js';
+import {onFilterButtonChange, sliderWrapper} from './effects.js';
 import {sendData} from './api.js';
 import {showMessageError, showMessageSuccess} from './messages.js';
 import {pristine, imgForm} from './validate-form.js';
@@ -94,7 +94,7 @@ function submitForm (onSuccess) {
       sendData(
         () => {
           onSuccess();
-          blockSubmitButton();
+          unblockSubmitButton();
           showMessageSuccess();
           closeUploadOverlay();
         },
