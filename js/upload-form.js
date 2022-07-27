@@ -19,6 +19,7 @@ const buttonSubmit = uploadOverlay.querySelector('.img-upload__submit');
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 
+// Функция добавляет загруженную фотографию в шаблон для редактирования
 function getPreviewPhoto() {
   const file = uploadFile.files[0];
   const fileName = file.name.toLowerCase();
