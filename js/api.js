@@ -6,8 +6,8 @@ function getData (onSuccess) {
   fetch('https://26.javascript.pages.academy/kekstagram/data')
     .then((response) =>
       response.json())
-    .then((pictures) => {
-      onSuccess(pictures);
+    .then((photos) => {
+      onSuccess(photos);
     })
     .catch(() => {
       showAlert('Не удалось загрузить изображения с сервера');
