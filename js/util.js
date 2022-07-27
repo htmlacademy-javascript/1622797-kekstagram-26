@@ -2,26 +2,9 @@ const ALERT_SHOW_TIME = 5000;
 const TIME_OUT_DELAY = 500;
 
 
-// Функция, возвращающая случайное целое число из переданного диапазона
-function getRandomPositiveInteger (a, b) {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
-
-  const result = Math.random() * (upper - lower + 1) + lower;
-
-  return Math.floor(result);
-}
-
-
 // Функция для проверки максимальной длины строки
 function checkStringLength (string, maxLength) {
   return string.length <= maxLength;
-}
-
-
-// Функция для получения случайного элемента из массива
-function getRandomArrayElement (elements) {
-  return elements[getRandomPositiveInteger(0, elements.length - 1)];
 }
 
 
@@ -79,4 +62,4 @@ function shuffle(array) {
   return copyArray;
 }
 
-export {getRandomPositiveInteger, checkStringLength, getRandomArrayElement, isEscapeKey, haveSameElements, showAlert, debounce, shuffle};
+export {checkStringLength, isEscapeKey, haveSameElements, showAlert, debounce, shuffle};
