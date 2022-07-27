@@ -1,10 +1,12 @@
 import {checkStringLength, haveSameElements} from './util.js';
-import {textHashtags, textDescription} from './upload-form.js';
+
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_COUNT_HASHTAG = 5;
 const MAX_DESCRIPTION_LENGTH = 140;
 
+const textHashtags = document.querySelector('.text__hashtags');
+const textDescription = document.querySelector('.text__description');
 const imgForm = document.querySelector('.img-upload__form');
 const pristine = new Pristine(imgForm, {
   classTo: 'img-upload__field-wrapper',
@@ -84,10 +86,4 @@ function validateHashtags(value) {
 const getHashtagErrorMessage = () => errorHashtags;
 pristine.addValidator(textHashtags, validateHashtags, getHashtagErrorMessage);
 
-
-imgForm.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (!isValid) {
-    evt.preventDefault();
-  }
-});
+export {pristine, imgForm};

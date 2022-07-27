@@ -1,13 +1,14 @@
+import {getData} from './api.js';
 import {createThumbnails} from './thumbnails.js';
-import {getPhotos} from './data.js';
-import {createBigPictures} from './big-pictures.js';
-import './util.js';
-import './upload-form.js';
-import './validate-form.js';
+import {submitForm} from './upload-form.js';
+import {createSlider} from './effects.js';
+import {showPhotosFilter} from './filters.js';
 
-const photosData = getPhotos();
-const photosContainer = document.querySelector('.pictures');
-const photoFragment = createThumbnails(photosData);
-photosContainer.appendChild(photoFragment);
 
-createBigPictures(url, likes, comments, description);
+getData((photos) => {
+  createThumbnails(photos);
+  showPhotosFilter(photos);
+});
+
+createSlider();
+submitForm();
