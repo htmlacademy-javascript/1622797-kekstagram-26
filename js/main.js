@@ -10,5 +10,4 @@ const photosContainer = document.querySelector('.pictures');
 const photoFragment = createThumbnails(photosData);
 photosContainer.appendChild(photoFragment);
 
-const thumbnails = photosContainer.querySelectorAll('.picture');
-createBigPictures(thumbnails, photosData);
+createBigPictures(url, likes, comments, description);
