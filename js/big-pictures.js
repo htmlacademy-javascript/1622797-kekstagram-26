@@ -45,7 +45,7 @@ function createBigPictures(photos) {
   bigPicturesContainer.querySelector('.big-picture__img img').src = photos.url;
   bigPicturesContainer.querySelector('.likes-count').textContent = photos.likes;
   bigPicturesContainer.querySelector('.social__caption').textContent = photos.description;
-  bigPicturesContainer.querySelector('.comments-count').textContent = String(photos.comments.length);
+  bigPicturesContainer.querySelector('.comments-count').textContent = photos.comments.length;
   comments = photos.comments;
   renderCommentsCounter();
   commentsLoader.addEventListener('click', commentsLoaderOnClick);
@@ -95,7 +95,7 @@ function renderCommentsCounter () {
   } else {
     commentsLoader.classList.remove('hidden');
   }
-  commentCount.textContent = `${commentsToShow.length} из ${comments.length} комментариев`;
+  commentCount.innerHTML = `${commentsToShow.length} из <span class="comments-count">${comments.length}</span> комментариев`;
 }
 
 export {createBigPictures, body, closeBigPictures};
