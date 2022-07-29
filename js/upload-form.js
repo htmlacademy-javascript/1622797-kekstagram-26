@@ -98,7 +98,7 @@ function unblockSubmitButton () {
 
 
 // Функция отправляет и валидирует данные на сервер
-function submitForm (onSuccess) {
+function submitForm () {
   imgForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
@@ -106,7 +106,6 @@ function submitForm (onSuccess) {
       blockSubmitButton();
       sendData(
         () => {
-          onSuccess();
           unblockSubmitButton();
           showMessageSuccess();
           closeUploadOverlay();
