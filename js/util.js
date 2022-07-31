@@ -53,13 +53,13 @@ const debounce = (callback, timeoutDelay = TIME_OUT_DELAY) => {
 };
 
 
-function shuffle(array) {
-  const copyArray = array.slice();
-  for (let i = copyArray.length - 1; i > 0; i--) {
+function shuffle(items) {
+  const newItems = items.slice();
+  for (let i = newItems.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [copyArray[i], copyArray[j]] = [copyArray[j], copyArray[i]];
+    [newItems[i], newItems[j]] = [newItems[j], newItems[i]];
   }
-  return copyArray;
+  return newItems;
 }
 
 export {checkStringLength, isEscapeKey, haveSameElements, showAlert, debounce, shuffle};

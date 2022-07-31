@@ -8,15 +8,15 @@ const template = photoTemplate.querySelector('a');
 
 
 // Функция отрисовывает миниатюру изображения и заполняет ее данными
-function createThumbnail (photos) {
+function createThumbnail (photo) {
   const photoElement = template.cloneNode(true);
 
-  photoElement.querySelector('.picture__img').src = photos.url;
-  photoElement.querySelector('.picture__likes').textContent = photos.likes;
-  photoElement.querySelector('.picture__comments').textContent = photos.comments.length;
+  photoElement.querySelector('.picture__img').src = photo.url;
+  photoElement.querySelector('.picture__likes').textContent = photo.likes;
+  photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
 
   photoElement.addEventListener('click', () => {
-    createBigPictures(photos);
+    createBigPictures(photo);
   });
   photoListFragment.appendChild(photoElement);
 }

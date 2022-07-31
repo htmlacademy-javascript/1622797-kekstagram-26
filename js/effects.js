@@ -4,7 +4,7 @@ const sliderWrapper = document.querySelector('.effect-level');
 const slider = sliderWrapper.querySelector('.effect-level__slider');
 const effectValue = document.querySelector('.effect-level__value');
 
-const sliderEffects = {
+const effectToSliderState = {
   chrome: {
     filter: 'grayscale',
     units: '',
@@ -98,10 +98,10 @@ function onFilterButtonChange (evt) {
     sliderWrapper.classList.remove('hidden');
     imgPreview.removeAttribute('class');
     imgPreview.classList.add(`effects__preview--${currentEffect}`);
-    slider.noUiSlider.updateOptions(sliderEffects[currentEffect].options);
+    slider.noUiSlider.updateOptions(effectToSliderState[currentEffect].options);
     slider.noUiSlider.on('update', () => {
       effectValue.value = slider.noUiSlider.get();
-      imgPreview.style.filter = `${sliderEffects[currentEffect].filter}(${effectValue.value}${sliderEffects[currentEffect].units})`;
+      imgPreview.style.filter = `${effectToSliderState[currentEffect].filter}(${effectValue.value}${effectToSliderState[currentEffect].units})`;
     });
   }
 }

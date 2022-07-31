@@ -1,10 +1,10 @@
 import {isEscapeKey} from './util.js';
 import {body} from './big-pictures.js';
-import {onControlScale, removeControlScale, imgPreview} from './scale-control.js';
+import {initScaleControl, destroyScaleControl, imgPreview} from './scale-control.js';
 import {onFilterButtonChange, sliderWrapper} from './effects.js';
 import {sendData} from './api.js';
-import {showMessageError, showMessageSuccess} from './messages.js';
-import {pristine, imgForm} from './validate-form.js';
+import {showMessage} from './messages.js';
+import {validator, imgForm} from './validate-form.js';
 
 
 const uploadFile = document.querySelector('#upload-file');
@@ -31,7 +31,7 @@ function getPreviewPhoto() {
 
 
 // Функция отменяет нажатие клавиши Escape при фокусе на полях с хэштегом и комментарием
-function onUploadFormEscKeydown (evt) {
+function onDocumentEscapeKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
 
@@ -48,10 +48,10 @@ function onUploadFormEscKeydown (evt) {
 function openUploadOverlay () {
   uploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
-  document.addEventListener('keydown', onUploadFormEscKeydown);
+  document.addEventListener('keydown', onDocumentEscapeKeydown);
   sliderWrapper.classList.add('hidden');
   buttonCancel.addEventListener('click', closeUploadOverlay);
-  onControlScale();
+  initScaleControl();
   effectList.addEventListener('change', onFilterButtonChange);
   getPreviewPhoto();
 }
@@ -69,8 +69,8 @@ function closeUploadOverlay () {
   preview.src = '';
   textHashtags.value = '';
   textDescription.value = '';
-  document.removeEventListener('keydown', onUploadFormEscKeydown);
-  removeControlScale();
+  document.removeEventListener('keydown', onDocumentEscapeKeydown);
+  destroyScaleControl();
   effectList.removeEventListener('change', onFilterButtonChange);
   imgPreview.removeAttribute('class');
   imgPreview.removeAttribute('style');
@@ -98,27 +98,24 @@ function unblockSubmitButton () {
 
 
 // Функция отправляет и валидирует данные на сервер
-function submitForm () {
-  imgForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const isValid = pristine.validate();
-    if (isValid) {
-      blockSubmitButton();
-      sendData(
-        () => {
-          unblockSubmitButton();
-          showMessageSuccess();
-          closeUploadOverlay();
-        },
-        () => {
-          unblockSubmitButton();
-          showMessageError();
-          closeUploadOverlay();
-        },
-        new FormData(evt.target),
-      );
-    }
-  });
-}
+imgForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const isValid = validator.validate();
+  if (isValid) {
+    blockSubmitButton();
+    sendData(
+      () => {
+        unblockSubmitButton();
+        showMessage('success');
+        closeUploadOverlay();
+      },
+      () => {
+        unblockSubmitButton();
+        showMessage('error');
+      },
+      new FormData(evt.target),
+    );
+  }
+});
 
-export {submitForm, closeUploadOverlay};
+export {openUploadOverlay};
