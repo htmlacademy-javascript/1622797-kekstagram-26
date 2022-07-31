@@ -2,7 +2,7 @@ import {debounce, shuffle} from './util.js';
 import {createThumbnails} from './thumbnails.js';
 
 const RANDOM_PHOTOS_COUNT = 10;
-const filters = document.querySelector('.img-filters');
+const filtersContainer = document.querySelector('.img-filters');
 const defaultButton = document.querySelector('#filter-default');
 const randomButton = document.querySelector('#filter-random');
 const discussedButton = document.querySelector('#filter-discussed');
@@ -22,15 +22,13 @@ function createDefaultFilters (photos) {
 
 // Функция показывает рандомные 10 фотографий
 function createRandomFilters (photos) {
-  const photosArray = photos.slice();
-  return shuffle(photosArray.slice()).slice(0, RANDOM_PHOTOS_COUNT);
+  return shuffle(photos.slice()).slice(0, RANDOM_PHOTOS_COUNT);
 }
 
 
 // Фукнция показывает самые обсуждаемые фотографии
 function createDiscussedFilters (photos) {
-  const photosArray = photos.slice();
-  return photosArray.sort(compareComments);
+  return photos.slice().sort(compareComments);
 }
 
 
@@ -57,8 +55,8 @@ function renderPhotosFilter (photos) {
 
 
 // Функция переключает фильтры с изображениями
-function showPhotosFilter (photos) {
-  filters.classList.remove('img-filters--inactive');
+function initFilters (photos) {
+  filtersContainer.classList.remove('img-filters--inactive');
   defaultButton.addEventListener('click', debounce((evt) => {
     removeActiveClass();
     if (evt.target === defaultButton) {
@@ -82,4 +80,4 @@ function showPhotosFilter (photos) {
   }));
 }
 
-export {showPhotosFilter};
+export {initFilters};

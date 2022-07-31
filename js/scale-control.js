@@ -29,7 +29,7 @@ function zoomIn () {
 }
 
 
-function onControlScale () {
+function initScaleControl () {
   currentValue = MAX_VALUE;
   scaleControlValue.value = `${MAX_VALUE}%`;
   imgPreview.style.transform = `scale(${1})`;
@@ -37,9 +37,9 @@ function onControlScale () {
   scaleControlBigger.addEventListener('click', zoomIn);
 }
 
-function removeControlScale () {
+function destroyScaleControl () {
   scaleControlSmaller.removeEventListener('click', zoomOut);
   scaleControlBigger.removeEventListener('click', zoomIn);
 }
 
-export {onControlScale, removeControlScale, imgPreview};
+export {initScaleControl, destroyScaleControl, imgPreview};

@@ -90,11 +90,7 @@ function renderCommentsCounter () {
     commentsFragment.appendChild(createComment(comment));
   });
   commentsBlock.appendChild(commentsFragment);
-  if (comments.length === commentsToShow.length) {
-    commentsLoader.classList.add('hidden');
-  } else {
-    commentsLoader.classList.remove('hidden');
-  }
+  commentsLoader.classList.toggle('hidden', comments.length === commentsToShow.length);
   commentCount.innerHTML = `${commentsToShow.length} из <span class="comments-count">${comments.length}</span> комментариев`;
 }
 
