@@ -1,6 +1,5 @@
 import {createBigPictures} from './big-pictures.js';
 
-
 const photoTemplate = document.querySelector('#picture').content;
 const photoListFragment = document.createDocumentFragment();
 const photoContainer = document.querySelector('.pictures');

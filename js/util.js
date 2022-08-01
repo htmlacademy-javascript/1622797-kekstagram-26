@@ -53,6 +53,7 @@ const debounce = (callback, timeoutDelay = TIME_OUT_DELAY) => {
 };
 
 
+// Функция перемешивает массив
 function shuffle(items) {
   const newItems = items.slice();
   for (let i = newItems.length - 1; i > 0; i--) {

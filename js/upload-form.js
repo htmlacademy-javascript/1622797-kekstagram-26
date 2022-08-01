@@ -6,7 +6,6 @@ import {sendData} from './api.js';
 import {showMessage} from './messages.js';
 import {validator, imgForm} from './validate-form.js';
 
-
 const uploadFile = document.querySelector('#upload-file');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const uploadCancel = document.querySelector('#upload-cancel');
@@ -31,7 +30,7 @@ function getPreviewPhoto() {
 
 
 // Функция отменяет нажатие клавиши Escape при фокусе на полях с хэштегом и комментарием
-function onDocumentEscapeKeydown (evt) {
+function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
 
@@ -48,8 +47,8 @@ function onDocumentEscapeKeydown (evt) {
 function openUploadOverlay () {
   uploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
-  document.addEventListener('keydown', onDocumentEscapeKeydown);
   sliderWrapper.classList.add('hidden');
+  document.addEventListener('keydown', onDocumentKeydown);
   buttonCancel.addEventListener('click', closeUploadOverlay);
   initScaleControl();
   effectList.addEventListener('change', onFilterButtonChange);
@@ -69,7 +68,7 @@ function closeUploadOverlay () {
   preview.src = '';
   textHashtags.value = '';
   textDescription.value = '';
-  document.removeEventListener('keydown', onDocumentEscapeKeydown);
+  document.removeEventListener('keydown', onDocumentKeydown);
   destroyScaleControl();
   effectList.removeEventListener('change', onFilterButtonChange);
   imgPreview.removeAttribute('class');
@@ -97,7 +96,7 @@ function unblockSubmitButton () {
 }
 
 
-// Функция отправляет и валидирует данные на сервер
+// Обработчик события на отправку и валидацию данных на сервер
 imgForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const isValid = validator.validate();

@@ -1,5 +1,6 @@
 import {isEscapeKey} from './util.js';
 
+
 // Функция показывает сообщения об ошибке или успешной отправке
 function showMessage (typeOfMessage) {
   const messageTemplateUpload = document.querySelector(`#${typeOfMessage}`).content.querySelector(`.${typeOfMessage}`);
@@ -10,9 +11,9 @@ function showMessage (typeOfMessage) {
     closeMessage();
   });
   function closeMessage() {
-    messageElementUpload.remove();
     document.removeEventListener('click', onOutsideClick);
-    document.removeEventListener('keydown', onMessageEscKeydown);
+    document.removeEventListener('keydown', onMessageEscKeydown, true);
+    messageElementUpload.remove();
   }
   document.addEventListener('click', onOutsideClick);
   function onOutsideClick(evt) {
@@ -20,9 +21,10 @@ function showMessage (typeOfMessage) {
       closeMessage();
     }
   }
-  document.addEventListener('keydown', onMessageEscKeydown);
+  document.addEventListener('keydown', onMessageEscKeydown, true);
   function onMessageEscKeydown(evt) {
     if (isEscapeKey(evt)) {
+      evt.stopPropagation();
       closeMessage();
     }
   }
