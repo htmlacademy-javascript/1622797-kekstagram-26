@@ -1,6 +1,5 @@
 import {checkStringLength, haveSameElements} from './util.js';
 
-
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_COUNT_HASHTAG = 5;
 const MAX_DESCRIPTION_LENGTH = 140;
@@ -26,7 +25,7 @@ const HashtagRule = {
 };
 
 const DESCRIPTION_ERROR = 'Длина комментария не может составлять больше 140 символов';
-const regularExpressions =  /^#[A-Za-zА-Яа-яЕё0-9]{1,19}$/;
+const HASHTAG_PATTERN =  /^#[A-Za-zА-Яа-яЕё0-9]{1,19}$/;
 
 
 // Функция для валидации поля с комментарием
@@ -43,7 +42,7 @@ let errorHashtags = HashtagRule.NO_ERROR;
 
 // Функция валидирует введеный хэштег
 function validateHashtag(hashtag) {
-  if (!regularExpressions.test(hashtag)) {
+  if (!HASHTAG_PATTERN.test(hashtag)) {
     if (hashtag[0] !== '#') {
       errorHashtags = HashtagRule.FIRST_SYMBOL_IS_HASH;
       return false;
@@ -86,6 +85,7 @@ function validateHashtags(value) {
 }
 
 
+// Функция показывает ошибки валидации поля с хэштегом
 function getHashtagErrorMessage() {
   return errorHashtags;
 }

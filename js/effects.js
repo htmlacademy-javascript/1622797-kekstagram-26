@@ -68,6 +68,7 @@ const effectToSliderState = {
 };
 
 
+// Функция создает слайдер
 function createSlider () {
   noUiSlider.create(slider, {
     range: {
@@ -89,6 +90,8 @@ function createSlider () {
   });
 }
 
+
+// Функция управления слайдером
 function onFilterButtonChange (evt) {
   const currentEffect = evt.target.value;
   if (currentEffect === 'none') {
